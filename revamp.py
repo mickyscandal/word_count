@@ -38,12 +38,13 @@ class TextData(object):
         self.pattern = pattern
         with open(self.nfile) as f:
             self.searchDat = f.readlines()
-            self.found = false
+            self.found = False
             for line in self.searchDat:
                 if pattern in line:
-                    self.found = true
+                    self.found = True
                     break
         return self.found
+
 
 
 class Argument(object):
@@ -81,13 +82,13 @@ class Display(object):
 
     def display_search(self):
         if textdata.found:
-            print "'%s' found: "
+            print "'%s' found: " % textdata.pattern
             for line in textdata.searchDat:
-                if textdata.word in line:
+                if textdata.pattern in line:
                     print line
 
     def timestamp(self):
-        pass
+        print "Generated on: %s" % time.asctime(time.localtime(time.time()))
 
 
 
@@ -100,25 +101,45 @@ class Write(object):
         pass
 
     def basic_write(self):
-
-        pass
+        self.outfile.write(textdata.basic_count() + "\n")
 
     def write_word_count(self):
-        pass
+        count = textdata.uniq_word_count()
+        for k, v in count.iteritems():
+            self.outfile.write("%s: %d\n" % (k,v))
 
     def write_search(self):
-        pass
+        if textdata.found:
+            self.outfile.write("'%s' found: \n" % textdata.pattern)
+            for line in textdata.searchDat:
+                if textdata.pattern in line:
+                    self.outfile.write(line + "\n")
+
+    def close_file(self):
+        self.outfile.close()
 
     def timestamp(self):
-        pass
+        self.outfile.write("Generated on: %s" % time.asctime(time.localtime(time.time())))
 
 
 
 if __name__ == "__main__":
     textdata = TextData('text.txt')
     display = Display(textdata)
-    # write = Write(textdata)
+    write = Write(textdata)
 
+    # viewing basic display
     display.basic_display()
+
+    # word count
     display.display_word_count()
+
+    # search and then display search
     textdata.search('fuck')
+    display.display_search()
+
+    # basic write
+    write.basic_write()
+    write.write_word_count()
+    write.write_search()
+    write.close_file()
