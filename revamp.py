@@ -119,7 +119,7 @@ class Write(object):
         self.outfile.close()
 
     def timestamp(self):
-        self.outfile.write("Generated on: %s" % time.asctime(time.localtime(time.time())))
+        self.outfile.write("Generated on: %s\n" % time.asctime(time.localtime(time.time())))
 
 
 
@@ -131,12 +131,14 @@ if __name__ == "__main__":
     textdata.search('fuck')
 
     # display outputs
-    display.basic_display(
+    display.basic_display()
     display.display_word_count()
     display.display_search()
+    display.timestamp()
 
     # write outputs
     write.basic_write()
     write.write_word_count()
     write.write_search()
+    write.timestamp()
     write.close_file()
