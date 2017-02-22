@@ -128,17 +128,14 @@ if __name__ == "__main__":
     display = Display(textdata)
     write = Write(textdata)
 
-    # viewing basic display
-    display.basic_display()
-
-    # word count
-    display.display_word_count()
-
-    # search and then display search
     textdata.search('fuck')
+
+    # display outputs
+    display.basic_display(
+    display.display_word_count()
     display.display_search()
 
-    # basic write
+    # write outputs
     write.basic_write()
     write.write_word_count()
     write.write_search()
